@@ -1,32 +1,34 @@
-set(target SRES)
+set(target opt)
 add_library(${target} STATIC
         Optimizer
-        EvolutionaryOptimizer
+        PopulationOptimizer
         GeneticAlgorithm
-        SRES
         RandomNumberGenerator
         OptItem
         OptItems
         Error
-        SRESRevamped
-        Replicate
-        Mutate
-        Select
+        CrossOver
+        Mutation
+        Selection
         Population
         Individual
         BlockingQueue
+        TourneySelection
+        BasicMutation
+        IntermediateRecombination
+        Operator
         )
 target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 
 
-set(target SRESC)
-add_library(${target} SHARED CSRES.cpp CSRES.h)
-target_link_libraries(${target} PUBLIC SRES)
+#set(target SRESC)
+#add_library(${target} SHARED CSRES.cpp CSRES.h)
+#target_link_libraries(${target} PUBLIC SRES)
 
 
 install(
-        TARGETS SRES SRESC
+        TARGETS opt
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}

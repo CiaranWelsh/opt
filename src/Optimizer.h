@@ -68,23 +68,13 @@ namespace opt {
          * during optimization.
          * @returns true on success.
          */
-        virtual bool fit() = 0;
+        virtual void fit() = 0;
 
         /**
          * @brief construct an optimizer using the OptItems
          * container
          */
         Optimizer(CostFunction cost, OptItems optItems);
-
-        /**
-         * @brief getter for OptItems instance
-         */
-        [[nodiscard]] const OptItems &getOptItems() const;
-
-        /**
-         * @brief setter for OptItems instance
-         */
-        void setOptItems(const OptItems &optItems);
 
         /**
          * @brief getter for cost function
@@ -98,14 +88,6 @@ namespace opt {
 
         void setSeed(unsigned long long int seed);
 
-        bool setSolution(const double &value, const std::vector<double> &variables);
-
-        std::vector<double> getHallOfFame();
-
-        [[nodiscard]] const std::vector<double> &getSolutionValues() const;
-
-        void setSolutionValues(const std::vector<double> &solutionValues);
-
         [[nodiscard]] double getBestFitnessValue() const;
 
         void setBestValue(double bestValue);
@@ -116,10 +98,7 @@ namespace opt {
 
     protected:
 
-        /**
-         * Collect the best values over generations
-         */
-        DoubleVector hallOfFame_;
+
 
         /**
          * @brief the parameters for the best solution

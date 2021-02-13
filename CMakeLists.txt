@@ -105,7 +105,7 @@ configure_file(
 
 add_subdirectory(external)
 
-add_subdirectory(sres)
+add_subdirectory(src)
 
 enable_testing()
 include(GoogleTest)
@@ -113,46 +113,46 @@ add_subdirectory(test)
 
 option(COPY_BINARY_TO_PYTHON_DIR " when true, find the SRES binary and copy to sres python folder" off)
 
-if (COPY_BINARY_TO_PYTHON_DIR)
-    install(TARGETS SRESC DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/sres")
-endif ()
+#if (COPY_BINARY_TO_PYTHON_DIR)
+#    install(TARGETS SRESC DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/sres")
+#endif ()
 
 
 
 
-find_package(Python)
-
-# configure the python setup.py
-configure_file(
-        "${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/setup.py"
-)
-
-install(
-        FILES
-        "${REQUIREMENTS_FILE}"
-        "${README_FILE}"
-        "${CMAKE_CURRENT_BINARY_DIR}/setup.py"
-        DESTINATION .
-)
-
-install(
-        FILES
-        sres/__init__.py
-        sres/sres.py
-        $<TARGET_FILE:SRESC>
-        DESTINATION
-        site-packages/sres
-)
-
-install(
-        FILES
-        sres/test/__init__.py
-        sres/test/BealeProblem.py
-        sres/test/LargeRRModel.py
-        sres/test/RoadrunnerProblem.py
-        DESTINATION site-packages/sres/test
-)
+#find_package(Python)
+#
+## configure the python setup.py
+#configure_file(
+#        "${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in"
+#        "${CMAKE_CURRENT_BINARY_DIR}/setup.py"
+#)
+#
+#install(
+#        FILES
+#        "${REQUIREMENTS_FILE}"
+#        "${README_FILE}"
+#        "${CMAKE_CURRENT_BINARY_DIR}/setup.py"
+#        DESTINATION .
+#)
+#
+#install(
+#        FILES
+#        sres/__init__.py
+#        sres/sres.py
+#        $<TARGET_FILE:SRESC>
+#        DESTINATION
+#        site-packages/sres
+#)
+#
+#install(
+#        FILES
+#        sres/test/__init__.py
+#        sres/test/BealeProblem.py
+#        sres/test/LargeRRModel.py
+#        sres/test/RoadrunnerProblem.py
+#        DESTINATION site-packages/sres/test
+#)
 
 
 

@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "Individual.h"
+#include <memory>
 
 namespace opt {
 
@@ -16,6 +17,7 @@ namespace opt {
 
     };
 
+    using SharedPopulation = std::shared_ptr<Population>;
 }
 
 #endif //SRES_POPULATION_H

@@ -1,90 +1,30 @@
 include(GoogleTest)
 
+
+function(add_test_executable BINARY OUT_VARIABLE)
+    add_executable(${BINARY} ${ARGN})
+
+    target_include_directories(${BINARY} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+    target_link_libraries(${BINARY} PUBLIC opt gtest gtest_main gmock gmock_main)
+
+    set_target_properties(${BINARY} PROPERTIES LINKER_LANGUAGE CXX)
+
+    if ("${${OUT_VARIABLE}}" STREQUAL "")
+        set(${OUT_VARIABLE} "${BINARY}" PARENT_SCOPE)
+    else ()
+        set(${OUT_VARIABLE} "${${OUT_VARIABLE}}" "${BINARY}" PARENT_SCOPE)
+    endif ()
+
+endfunction()
+
 set(TESTS)
-set(target SRES-BealeFunction)
-add_executable(${target} BealeFunction.cpp)
-target_link_libraries(${target} PRIVATE SRES)
-set(TESTS "${TESTS}" "${target}")
-
-set(target SRES-BealeFunctionC)
-add_executable(${target} BealeFunctionC.cpp)
-target_link_libraries(${target} PRIVATE SRESC)
-set(TESTS "${TESTS}" "${target}")
-
-get_filename_component(PARENT_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY)
-target_include_directories(${target} PRIVATE ${PARENT_DIR})
-add_dependencies(${target} SRESC)
-set(TESTS "${TESTS}" "${target}")
+add_test_executable(SRES-BealeFunction TESTS BealeFunction.cpp)
+add_test_executable(RNGTests TESTS RNGTests.cpp)
+add_test_executable(OptItemsTest TESTS OptItemsTest.cpp)
+add_test_executable(OptItemTest TESTS OptItemTest.cpp)
+add_test_executable(GeneticAlgorithmIntegrationTests TESTS GeneticAlgorithmIntegrationTests.cpp)
 
 
-install(
-        TARGETS ${target}
-        EXPORT ${target}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-
-set(target RNGTests)
-add_executable(${target} RNGTests.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRES)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
-
-
-set(target OptItemTests)
-add_executable(${target} OptItemTest.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRES)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
-
-
-set(target OptItemsTests)
-add_executable(${target} OptItemsTest.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRES)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
-
-
-set(target CSRESTest)
-add_executable(${target} CSRESTest.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRES)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
-
-
-set(target SRESCTest)
-add_executable(${target} CCSRESTest.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRESC)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
-
-
-set(target SRESTests)
-add_executable(${target} SRESTests.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRES)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
-
-set(target SRESRevampedTests)
-add_executable(${target} SRESRevampedTests.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRES)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
-
-set(target SRESRevampedIntegrationTests)
-add_executable(${target} SRESRevampedIntegrationTests.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRES)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
-
-
-set(target ThreadSafeVectorTests)
-add_executable(${target} ThreadSafeVectorTests.cpp)
-target_link_libraries(${target} PRIVATE gtest gtest_main SRES)
-gtest_add_tests(TARGET ${target})
-set(TESTS "${TESTS}" "${target}")
 
 
 install(TARGETS ${TESTS})

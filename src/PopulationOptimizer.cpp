@@ -4,31 +4,31 @@
 
 #include <iostream>
 #include "PopulationOptimizer.h"
+#include "Selection.h"
+#include "CrossOver.h"
+#include "Mutation.h"
 #include <set>
 #include <execution>
+#include <utility>
 
 namespace opt {
 
     PopulationOptimizer::PopulationOptimizer(
             CostFunction cost, int populationSize, int numGenerations,
             const DoubleVector &startingValues, const DoubleVector &lb,
-            const DoubleVector &ub, int childRate, int stopAfterStalledGenerations,
-            bool logspace, bool verbose, int numLHSInitSamples,
-            int numGenerationsForLHSInitSamples)
+            const DoubleVector &ub, Selection* selection,
+            Mutation* mutation, CrossOver* crossover, int childRate, bool logspace,
+            bool verbose, int numLHSInitSamples, int numGenerationsForLHSInitSamples)
             : Optimizer(cost, startingValues, lb, ub, logspace, verbose),
               populationSize_(populationSize),
               numGenerations_(numGenerations),
+              selection_(selection),
+              mutation_(mutation),
+              crossover_(crossover),
               childRate_(childRate),
-              stopAfterStalledGenerations_(stopAfterStalledGenerations),
               numLHSInitSamples_(numLHSInitSamples),
-              numGenerationsForLHSInitSamples_(numGenerationsForLHSInitSamples) {
-        if (stopAfterStalledGenerations_ == 1) {
-            stopAfterStalledGenerations_ = ceil(numGenerations_ * 0.2); // defaults to 20% of generations
-        } else if (stopAfterStalledGenerations == 0) {
-            // set arbitrarily high so we'll never hit it
-            stopAfterStalledGenerations_ = 1000000000;
-        }
-    }
+              numGenerationsForLHSInitSamples_(numGenerationsForLHSInitSamples) {}
+
 
     int PopulationOptimizer::getPopulationSize() const {
         return populationSize_;
@@ -54,22 +54,9 @@ namespace opt {
         PopulationOptimizer::numGenerations_ = numGenerations;
     }
 
-    bool PopulationOptimizer::evaluate(std::vector<double> individual) {
-        bool Continue = true;
-
-        // todo refactor this so that it returns the fitness instead
-
-        /**
-         * sadly, to make this interoperable with C and therefore
-         * Python, I could not used std::function for the callback.
-         * Instead we use a raw double, which means we need
-         * to construct a raw double array from individual
-         */
+    double PopulationOptimizer::evaluate(Individual& individual) {
         double *pd = individual.data();
-
-        fitnessValue_ = (*cost_)(pd);
-
-        return Continue;
+        return (*cost_)(pd);
     }
 
 
@@ -81,20 +68,13 @@ namespace opt {
         currentGeneration_ = currentGeneration;
     }
 
-    unsigned int PopulationOptimizer::getStopAfterStalledGenerations() const {
-        return stopAfterStalledGenerations_;
-    }
 
-    void PopulationOptimizer::setStopAfterStalledGenerations(unsigned int stopAfterStalledGenerations) {
-        stopAfterStalledGenerations_ = stopAfterStalledGenerations;
-    }
-
-    const DoubleMatrix &PopulationOptimizer::getPopulation() const {
+    SharedPopulation PopulationOptimizer::getPopulation() const {
         return population_;
     }
 
-    void PopulationOptimizer::setPopulation(const DoubleMatrix &individuals) {
-        population_ = individuals;
+    void PopulationOptimizer::setPopulation(SharedPopulation sharedPopulation) {
+        population_ = std::move(sharedPopulation);
     }
 
     const DoubleVector &PopulationOptimizer::getPopulationFitness() const {

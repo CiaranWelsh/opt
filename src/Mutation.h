@@ -5,16 +5,15 @@
 #ifndef SRES_MUTATION_H
 #define SRES_MUTATION_H
 
+#include "Operator.h"
+
 namespace opt {
 
-    class Mutation {
+    class Mutation : public Operator {
 
     public:
 
-        /**
-         * @brief default constructor
-         */
-        Mutation() = default;
+        using Operator::Operator;
 
         /**
          * @brief virtual default destructor

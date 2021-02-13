@@ -9,20 +9,23 @@
 #include "Mutation.h"
 #include "CrossOver.h"
 #include "GeneticAlgorithm.h"
+#include "TourneySelection.h"
+#include "BasicMutation.h"
+#include "IntermediateRecombination.h"
 
 using namespace opt;
 
-class SRESRevampedIntegrationTests {
+class GeneticAlgorithmIntegrationTests {
 public:
 
-    SRESRevampedIntegrationTests() = default;
+    GeneticAlgorithmIntegrationTests() = default;
 };
 
 
 /**
  * This is how I want to use the algorthm
  */
-TEST_F(SRESRevampedIntegrationTests, test) {
+TEST_F(GeneticAlgorithmIntegrationTests, test) {
     std::vector<double> lowerBounds;
     std::vector<double> upperBounds;
     std::vector<double> startingVals;
@@ -36,15 +39,15 @@ TEST_F(SRESRevampedIntegrationTests, test) {
     IntermediateRecombination intermediateRecombination; // discrete and global recombination also exist
 
     GeneticAlgorithm geneticAlgorithm(
-            15, lowerBounds, upperBounds, startingVals,
+            15, 25, lowerBounds, upperBounds, startingVals,
             &tourneySelection, &mutation, &intermediateRecombination
     );
 
     geneticAlgorithm.fit();
-
-    Individual bestIndividual = geneticAlgorithm.getBestIndividual();
-
-    std::unordered_map<int, double> hallOfFame = geneticAlgorithm.getHallOfFame();
+//
+//    Individual bestIndividual = geneticAlgorithm.getBestIndividual();
+//
+//    std::unordered_map<int, double> hallOfFame = geneticAlgorithm.getHallOfFame();
 
 
 }

@@ -6,6 +6,11 @@
 #define SRES_POPULATIONOPTIMIZER_H
 
 #include "Optimizer.h"
+#include "Population.h"
+#include "Selection.h"
+#include "Mutation.h"
+#include "CrossOver.h"
+#include "unordered_map"
 
 namespace opt {
 
@@ -47,8 +52,10 @@ namespace opt {
                 const DoubleVector &startingValues,
                 const DoubleVector &lb,
                 const DoubleVector &ub,
+                Selection* selection,
+                Mutation* mutation,
+                CrossOver* crossOver,
                 int childRate = 7,
-                int stopAfterStalledGenerations = 0,
                 bool logspace = false,
                 bool verbose = false,
                 int numLHSInitSamples = 0,
@@ -60,14 +67,20 @@ namespace opt {
          * evolutionary strategy here. Users call the fit method to optimize
          * their parameters
          */
-        bool fit() override = 0;
+        void fit() override = 0;
+
+
+        /**
+         * @brief Evaluate the cost function with individual
+         */
+        double evaluate(Individual &individual);
+
 
         /**
          * @brief produce random populations using latin hypercube sampling
          *
          */
         virtual DoubleMatrix findStartingSet();
-
 
         /**
          * @brief getter for population size
@@ -110,24 +123,14 @@ namespace opt {
         void setCurrentGeneration(int currentGeneration);
 
         /**
-         * @brief getter for stopAfterStalledGenerations
-         */
-        [[nodiscard]] unsigned int getStopAfterStalledGenerations() const;
-
-        /**
-         * @brief setter for stopAfterStalledGenerations
-         */
-        void setStopAfterStalledGenerations(unsigned int stopAfterStalledGenerations);
-
-        /**
          * @brief getter for individuals matrix
          */
-        [[nodiscard]] const DoubleMatrix &getPopulation() const;
+        [[nodiscard]] SharedPopulation getPopulation() const;
 
         /**
          * @brief setter for individuals matrix
          */
-        void setPopulation(const DoubleMatrix &individuals);
+        void setPopulation(SharedPopulation population);
 
         /**
          * @brief getter for population fitness
@@ -141,55 +144,27 @@ namespace opt {
 
     protected:
 
-        /**
-         * @brief Evaluate the fitness of @param individual
-         * @details calls the cost function provided by the user.
-         * All data and simulation procedures are handled by the
-         * user inside the cost function. This method only
-         * calls the cost function. A viable default is provided
-         * but individual algorithms can implement their own
-         * evaluate method.
-         */
-        virtual bool evaluate(std::vector<double> individual);
 
         /**
-         * @brief Perform the mutation operation
-         * implemented by a EvolutionaryOptimizer
+         * @brief Selection operator
          */
-        virtual bool mutate() = 0;
+        Selection* selection_;
 
         /**
-         * @brief initialization routines that need to be
-         * done before optimization can take place.
-         * todo consider moving to constructor?
+         * @brief mutation operator
          */
-        virtual bool initialize() = 0;
+        Mutation* mutation_;
 
         /**
-         * @brief find index of the best individual in the
-         * current population.
-         * @details the bestValue_ is updated by this method.
+         * @brief Selection operator
          */
-        virtual int findBestIndividual() = 0;
-
-        /**
-         * @brief Perform the selection operation
-         * implemented by a EvolutionaryOptimizer
-         */
-        virtual void select() = 0;
-
-        virtual bool replicate() = 0;
+        CrossOver* crossover_;
 
         /**
          * @brief counter for number of generations.
          */
         int currentGeneration_ = 0;
 
-        /**
-        * if no improvement was made after # stalled generations
-        * stop
-        */
-        unsigned int stopAfterStalledGenerations_ = 25;
 
         /**
          * @brief the number of individuals in the parent population.
@@ -210,7 +185,7 @@ namespace opt {
          * other words, each row in this matrix is a candidate
          * solution.
          */
-        DoubleMatrix population_;
+        SharedPopulation population_;
 
         /**
          * @brief A vector containing all the fitness
@@ -241,6 +216,12 @@ namespace opt {
          * beneficial to set this to some low number
          */
         int numGenerationsForLHSInitSamples_ = 0;
+
+        /**
+         * Collect the best values over generations. This is a map
+         * with generation as key and fitness as value
+         */
+        std::unordered_map<int, double> hallOfFame_;
 
     };
 
