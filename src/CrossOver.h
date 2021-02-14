@@ -16,7 +16,7 @@ namespace opt {
 
         virtual ~CrossOver() = default;
 
-        virtual void crossover() = 0;
+        virtual void crossover(Individual &parent1, Individual &parent2) = 0;
 
     };
 }

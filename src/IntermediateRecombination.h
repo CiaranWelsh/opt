@@ -17,7 +17,7 @@ namespace opt {
 
         ~IntermediateRecombination() override = default;
 
-        void crossover() override;
+        void crossover(Individual &parent1, Individual &parent2) override;
 
 
     };

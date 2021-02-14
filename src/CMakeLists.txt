@@ -1,22 +1,24 @@
 set(target opt)
 add_library(${target} STATIC
-        Optimizer
-        PopulationOptimizer
-        GeneticAlgorithm
         RandomNumberGenerator
+        Optimizer
+            PopulationOptimizer
+            GeneticAlgorithm
+        Container.h
+            Population
+            Individual
         OptItem
         OptItems
         Error
-        CrossOver
-        Mutation
-        Selection
-        Population
-        Individual
         BlockingQueue
-        TourneySelection
-        BasicMutation
-        IntermediateRecombination
         Operator
+        CrossOver
+            CxOnePoint
+            IntermediateRecombination
+        Mutation
+            BasicMutation
+        Selection
+            TourneySelection
         )
 target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

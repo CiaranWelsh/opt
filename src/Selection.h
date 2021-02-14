@@ -11,7 +11,7 @@
 namespace opt {
 
     class Selection : public Operator {
-
+        
     public:
 
         using Operator::Operator;

@@ -7,7 +7,7 @@
 
 namespace opt {
 
-    void IntermediateRecombination::crossover() {
+    void IntermediateRecombination::crossover(Individual &parent1, Individual &parent2) {
 
     }
 }
