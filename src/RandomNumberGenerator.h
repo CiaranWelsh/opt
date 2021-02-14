@@ -21,19 +21,11 @@ namespace opt {
 
     public:
 
-        static RandomNumberGenerator &getInstance();
-
-        [[nodiscard]] unsigned long long int getSeed() const;
-
-        void setSeed(unsigned long long int seed);
+        static RandomNumberGenerator &getInstance(unsigned long long seed = 0);
 
         double uniformReal(double lb, double ub);
 
         std::vector<double> uniformReal(double lb, double ub, int size);
-
-//        [[nodiscard]] std::default_random_engine* getGenerator() const;
-
-        void setGenerator(const std::default_random_engine &generator);
 
         double normal(double mu, double sigma);
 
@@ -56,18 +48,12 @@ namespace opt {
         std::vector<std::vector<double>> lhs(
                 int npopulation, int nparams, std::vector<double> lb, std::vector<double> ub, bool sampleInLogspace = true);
 
+        std::vector<int> uniformIntWithoutReplacement(int lb, int ub, int size);
+
     private:
 
         explicit RandomNumberGenerator(
                 unsigned long long seed = std::chrono::high_resolution_clock::now().time_since_epoch().count());
-
-        /**
-         * @brief seed defaults to the current time
-         * set by a high resolution clock. This c
-         * can be set by the user to have predictable
-         * random numbers
-         */
-        unsigned long long seed_;
 
         std::default_random_engine generator_;
 

@@ -9,32 +9,14 @@
 namespace opt {
 
     RandomNumberGenerator::RandomNumberGenerator(unsigned long long seed)
-            : seed_(seed), generator_(std::default_random_engine(seed)) {}
+            : generator_(std::default_random_engine(seed)) {}
 
-    RandomNumberGenerator &RandomNumberGenerator::getInstance() {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    RandomNumberGenerator &RandomNumberGenerator::getInstance(unsigned long long seed) {
+        if (seed == 0) {
+            seed = std::chrono::system_clock::now().time_since_epoch().count();
+        }
         static RandomNumberGenerator singleton(seed);
         return singleton;
-    }
-
-    unsigned long long int RandomNumberGenerator::getSeed() const {
-        return seed_;
-    }
-
-    void RandomNumberGenerator::setSeed(unsigned long long int seed) {
-        // it is pointless setting a seed and not restarting the
-        // rng with that seed. So setting the seed also resets the rng
-        // with that seed
-        seed_ = seed;
-        generator_ = std::default_random_engine(seed_);
-    }
-
-//    std::default_random_engine RandomNumberGenerator::getGenerator() const {
-//        return generator_;
-//    }
-
-    void RandomNumberGenerator::setGenerator(const std::default_random_engine &generator) {
-        generator_ = generator;
     }
 
     double RandomNumberGenerator::uniformReal(double lb, double ub) {
@@ -182,10 +164,26 @@ namespace opt {
 //                if (sampleInLogspace)
 //                    population[j][i] = pow(10, tmp_[i][j]);
 //                else
-                    population[j][i] = tmp_[i][j];
+                population[j][i] = tmp_[i][j];
             }
         }
         return population;
     }
 
+
+    std::vector<int> RandomNumberGenerator::uniformIntWithoutReplacement(int lb, int ub, int size) {
+        // create a vector with ordered elements from lower bound to upperbound.
+        // Then shuffle and take as many as you need
+        // for example, when lb  = 5, ub = 10 and size = 3
+        std::vector<int> v(ub - lb);   // ub - lb = 5
+
+        for (int i = lb; i < ub; i++) {
+            v[i] = i; // fill those 5 spaces with 5, 6, 7, 8, 9
+        }
+        // shuffle them
+        std::ranges::shuffle(v, generator_);  // only if you want the samples in random order
+
+        // and select size of them
+        return std::vector<int>(v.begin(), v.begin() + size);
+    }
 }

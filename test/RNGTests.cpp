@@ -15,6 +15,12 @@ public:
 
 };
 
+TEST_F(RNGTests, CheckThatWeCanSetTheSeed) {
+    RandomNumberGenerator generator = RandomNumberGenerator::getInstance(5);
+    int x = generator.uniformInt(0, 10);
+    ASSERT_EQ(x, 9);
+}
+
 
 TEST_F(RNGTests, CheckThatTheShapeOfLHSMatrixIsCorrect) {
 
@@ -139,9 +145,15 @@ TEST_F(RNGTests, CheckForUniqueness) {
 //todo test for lhs with negative numbers for lower bounds
 
 TEST_F(RNGTests, TestUniformReal){
-    RandomNumberGenerator rng = RandomNumberGenerator::getInstance();
-    rng.setSeed(4); // will still be different with different compilers.
+    RandomNumberGenerator rng = RandomNumberGenerator::getInstance(4);
     std::cout << rng.uniformReal(0, 1);
+}
+
+TEST_F(RNGTests, TestUniformIntNoReplace){
+    RandomNumberGenerator rng = RandomNumberGenerator::getInstance(4);
+    std::vector<int> x = rng.uniformIntWithoutReplacement(0, 50, 5 );
+    std::vector<int> y({40, 18, 9, 5, 38});
+    ASSERT_EQ(x, y);
 }
 
 

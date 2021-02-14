@@ -6,6 +6,7 @@
 #define SRES_INDIVIDUAL_H
 
 #include "Container.h"
+#include "CostFunction.h"
 
 namespace opt {
 
@@ -14,6 +15,11 @@ namespace opt {
     public:
         using Container<double>::Container;
         using Container<double>::operator[];
+
+        /**
+         * @brief compute the fitness based on
+         */
+        double evaluate(CostFunction cost);
 
         [[nodiscard]] const std::vector<double> &getValues() const;
 

@@ -7,6 +7,12 @@
 #include <vector>
 
 namespace opt {
+
+    double Individual::evaluate(CostFunction cost) {
+        fitness_ = (*cost)(data());
+        return fitness_;
+    }
+
     const std::vector<double> &Individual::getValues() const {
         return contents_;
     }
@@ -58,5 +64,6 @@ namespace opt {
         }
         return *this;
     }
+
 
 }

@@ -21,7 +21,7 @@ namespace opt {
 
         void setPopulation(const SharedPopulation &population);
 
-    private:
+    protected:
 
         SharedPopulation population_;
 

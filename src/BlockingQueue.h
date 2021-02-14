@@ -51,7 +51,23 @@ public:
     int size() {
         std::lock_guard<std::mutex> lock(mtx_);
         return que_.size();
+    }
 
+    /**
+     * @brief when distributing computation
+     * using multithreading we evenly split the @param workLoad
+     * into @param nThreads and handle the remainder
+     */
+    static void computeDistributedIndices(int nThreads, int workLoad) {
+        // work out how many jobs per thread
+        int jobsPerThread = floor(workLoad / nThreads);
+
+        // check for remainder
+        int r = workLoad % nThreads;
+
+        // could offload this to a class
+        // DistributedWorkloadSchedule
+        //    -
     }
 
 private:

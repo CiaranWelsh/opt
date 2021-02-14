@@ -5,6 +5,7 @@
 #include "gtest/gtest.h"
 
 #include "Individual.h"
+#include "CostFunctions.h"
 
 using namespace opt;
 
@@ -17,14 +18,13 @@ public:
 };
 
 
-
 TEST_F(IndividualTests, TestValuesEqual) {
     std::vector<double> v({15, 7, 2, 5});
     Individual individual(v);
     ASSERT_EQ(v, individual.getValues());
 }
 
-TEST_F(IndividualTests, TestSlice){
+TEST_F(IndividualTests, TestSlice) {
     Individual container({0, 1, 2, 3, 4, 5, 6});
     Individual expected({0});
     Individual actual = container(0, 1);
@@ -32,7 +32,11 @@ TEST_F(IndividualTests, TestSlice){
 }
 
 
-
+TEST_F(IndividualTests, TestCostFunctionEvaluation) {
+    Individual individual({3.01, 0.501});
+    double fitness = individual.evaluate(BealeFunction);
+    ASSERT_NEAR(0.01, fitness, 0.01);
+}
 
 
 

@@ -35,7 +35,7 @@ namespace opt {
     }
 
     void Optimizer::setSeed(unsigned long long int seed) {
-        RandomNumberGenerator::getInstance().setSeed(seed);
+        RandomNumberGenerator::getInstance(seed);
     }
 
 

@@ -7,7 +7,7 @@
 
 #include "OptItems.h"
 #include "RandomNumberGenerator.h"
-
+#include "CostFunction.h"
 /*
  * Its useful to be able to provide our own objective functions
  * but it introduces overhead. It would be nice to be able
@@ -21,14 +21,6 @@ namespace opt {
 
     using DoubleMatrix = std::vector<std::vector<double>>;
     using DoubleVector = std::vector<double>;
-
-    /**
-     * @brief cost function with signature for parameters (to estimate).
-     * @param individual or genome. This is a double vector representing candiate parameters
-     * @return Fitness of the input individual.
-     */
-    typedef double(*CostFunction)(double *);
-
 
     /**
      * @brief base class for optimization algorithms.
@@ -86,7 +78,7 @@ namespace opt {
          */
         void setCost(CostFunction cost);
 
-        void setSeed(unsigned long long int seed);
+        static void setSeed(unsigned long long int seed);
 
         [[nodiscard]] double getBestFitnessValue() const;
 

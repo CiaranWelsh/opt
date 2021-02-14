@@ -1,0 +1,56 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+
+class Optimizer {
+    cost : CostFunction
+    startingValues: DoubleVector
+    lb: DoubleVector
+    ub: DoubleVector
+    logspace: bool
+    verbose: bool
+    setSeed()
+}
+
+class PopulationOptimizer {
+    selection: *Selection
+    mutation: *Mutation
+    crossover: *Crossover
+}
+
+class Population
+class Individual
+class SharedPopulation <<typdef>>
+Population <- SharedPopulation
+
+Population *-- Individual
+
+
+class GeneticAlgorithm
+
+class Operator {
+    pop: SharedPopulation
+}
+
+Operator *-- SharedPopulation
+
+
+interface Mutation
+
+interface Crossover
+
+interface Selection
+
+Operator <|-- Mutation
+Operator <|-- Selection
+Operator <|-- Crossover
+
+Optimizer <|-- PopulationOptimizer
+PopulationOptimizer <|-- GeneticAlgorithm
+PopulationOptimizer o-- Selection
+PopulationOptimizer o-- Crossover
+PopulationOptimizer o-- Mutation
+
+
+
+@enduml

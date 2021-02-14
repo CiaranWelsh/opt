@@ -9,6 +9,9 @@
 #include <algorithm>
 #include <chrono>
 #include <execution>
+#include "CostFunctions.h"
+#include "RandomNumberGenerator.h"
+
 /**
  * Population is an Individual container.
  * An individual is more or less just a double vector.
@@ -85,8 +88,66 @@ TEST_F(PopulationTests, CreateAPopulationUsingLHS) {
 }
 
 
+TEST_F(PopulationTests, TestCostFunctionEvaluationWhenPopsizeLTNumThreads) {
+    auto start = std::chrono::steady_clock::now();
+
+    Population population({
+                                  {3.5,  1.0},
+                                  {2.5, 0.1},
+                                  {3.25, 0.25},
+                          });
+
+    double fitness = population.evaluate(BealeFunction);
+
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "fitness: " << fitness << std::endl;
+    std::cout << "computation took: " << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()
+              << " microseonds" << std::endl;
+    ASSERT_NEAR(13.2693, fitness, 0.1);
+
+}
+
+TEST_F(PopulationTests, TestCostFunctionEvaluationWhenPopsizeGTNumThreadsNoRemainder) {
+    auto start = std::chrono::steady_clock::now();
+
+    RandomNumberGenerator rng = RandomNumberGenerator::getInstance(10);
+    Population population = Population::fromLHS(22, 2, {2.9, 0.4}, {3.1, 0.6}, false);
+    double fitness = population.evaluate(BealeFunction);
+
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "fitness: " << fitness << std::endl;
+    std::cout << "computation took: " << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()
+              << " microseonds" << std::endl;
+    ASSERT_NEAR(27.19477161939496, fitness, 0.1);
+
+}
+
+TEST_F(PopulationTests, TestCostFunctionEvaluationWhenPopsizeGTNumThreadsWithRemainder) {
+    auto start = std::chrono::steady_clock::now();
+
+    RandomNumberGenerator rng = RandomNumberGenerator::getInstance(10);
+
+    Population population = Population::fromLHS(50000, 2, {2.9, 0.4}, {3.1, 0.6}, false);
+    ASSERT_NEAR(population[0][0], 3.00675, 0.1); // makes sure our seed words
+
+    double fitness = population.evaluate(BealeFunction);
 
 
+    auto end = std::chrono::steady_clock::now();
+    std::cout << "fitness: " << fitness << std::endl;
+    std::cout << "computation took: " << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()
+              << " microseonds" << std::endl;
+
+    double expected = 2.6364696533534953; //for seed = 10
+    ASSERT_NEAR(expected, fitness, 0.1);
+
+    /**
+     * Notes: fitness: 2.63647
+     * computation took: 2910 microseonds in serial (1 thread)
+     *
+     *
+     */
+}
 
 
 

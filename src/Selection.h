@@ -18,7 +18,7 @@ namespace opt {
 
         virtual ~Selection() = default;
 
-        virtual void select() = 0;
+        virtual std::vector<int> select() = 0;
 
     };
 

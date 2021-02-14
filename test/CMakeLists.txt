@@ -23,11 +23,13 @@ add_test_executable(RNGTests TESTS RNGTests.cpp)
 add_test_executable(OptItemsTest TESTS OptItemsTest.cpp)
 add_test_executable(OptItemTest TESTS OptItemTest.cpp)
 add_test_executable(GeneticAlgorithmIntegrationTests TESTS GeneticAlgorithmIntegrationTests.cpp)
-add_test_executable(TourneySelectionTests TESTS TourneySelectionTests.cpp)
+add_test_executable(TournanentSelectionTests.cpp TESTS TournanentSelectionTests.cpp)
 add_test_executable(PopulationTests TESTS PopulationTests.cpp)
-add_test_executable(IndividualTests TESTS IndividualTests.cpp )
+add_test_executable(IndividualTests TESTS IndividualTests.cpp CostFunctions.h)
 add_test_executable(ContainerTests TESTS ContainerTests.cpp )
-add_test_executable(CxOnePointTests TESTS CxOnePointTests.cpp )
+add_test_executable(CxOnePointTests TESTS CxOnePointTests.cpp MockPopulationOptimizer.h)
+add_test_executable(SimpleRNG TESTS SimpleRNG.cpp)
+add_test_executable(EvaluationThreading TESTS EvaluationThreading.cpp)
 
 
 

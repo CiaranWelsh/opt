@@ -15,7 +15,7 @@ namespace opt {
     public:
         using Container<Individual>::Container;
 
-        explicit Population(std::vector<std::vector<double>> input);
+        explicit Population(const std::vector<std::vector<double>>& input);
 
         Population(std::initializer_list<std::initializer_list<double>> input);
 
@@ -50,12 +50,27 @@ namespace opt {
                 std::vector<double> ub,
                 bool logspace);
 
+        /**
+         * @brief Determine the fitness of each individual in the
+         * population.Does this using multithreading.
+         */
+        double evaluateMultiThreadedManual(CostFunction cost);
+
+        double evaluate(CostFunction cost);
+
+
     private:
         /**
          * @brief fitness of the population.
          * Sum of the individuals
          */
-        double fitness_ = std::numeric_limits<double>::max();
+        double populationFitness_ = std::numeric_limits<double>::max();
+
+        /**
+         * @brief ordered vector containing the calculated fitnesses
+         * for each individual in the population.
+         */
+        std::vector<double> individualFitnesses_;
     };
 
 

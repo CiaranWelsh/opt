@@ -10,14 +10,23 @@
 namespace opt {
 
 
+    /**
+     * Select best individual from tournsize tournaments, k times.
+     */
     class TourneySelection : public Selection {
     public:
 
         using Selection::Selection;
 
+        TourneySelection(SharedPopulation population, int tournsize, int k);
+
         ~TourneySelection() override = default;
 
-        void select() override;
+        std::vector<int> select() override;
+
+    private:
+        int k_;
+        int tournsize_;
     };
 
 }

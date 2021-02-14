@@ -14,7 +14,6 @@
 
 namespace opt {
 
-
     class PopulationOptimizer : public Optimizer {
 
     public:
