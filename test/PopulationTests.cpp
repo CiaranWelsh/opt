@@ -150,6 +150,17 @@ TEST_F(PopulationTests, TestCostFunctionEvaluationWhenPopsizeGTNumThreadsWithRem
 }
 
 
+TEST_F(PopulationTests, TestSharedPopulationPtr) {
+    RandomNumberGenerator rng = RandomNumberGenerator::getInstance(10);
+
+    SharedPopulation population = std::make_shared<Population>(
+            Population::fromLHS(50000, 2, {2.9, 0.4}, {3.1, 0.6}, false)
+    );
+
+    std::cout << (*population)[0][0] << std::endl;
+}
+
+
 
 
 

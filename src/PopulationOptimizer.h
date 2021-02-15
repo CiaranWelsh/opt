@@ -187,6 +187,13 @@ namespace opt {
         SharedPopulation population_;
 
         /**
+         * @brief matrix on individuals where rows are parameter
+         * sets while columns are parameter candidates. This is
+         * the matrix for the next generation
+         */
+        SharedPopulation nextGen_;
+
+        /**
          * @brief A vector containing all the fitness
          * for each row of the individuals_ matrix.
          */

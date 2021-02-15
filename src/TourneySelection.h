@@ -20,9 +20,11 @@ namespace opt {
 
         TourneySelection(SharedPopulation population, int tournsize, int k);
 
+        TourneySelection(int tournsize, int k);
+
         ~TourneySelection() override = default;
 
-        std::vector<int> select() override;
+        void select(SharedPopulation &nextGen) override;
 
     private:
         int k_;

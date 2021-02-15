@@ -15,8 +15,8 @@ namespace opt {
     PopulationOptimizer::PopulationOptimizer(
             CostFunction cost, int populationSize, int numGenerations,
             const DoubleVector &startingValues, const DoubleVector &lb,
-            const DoubleVector &ub, Selection* selection,
-            Mutation* mutation, CrossOver* crossover, int childRate, bool logspace,
+            const DoubleVector &ub, Selection *selection,
+            Mutation *mutation, CrossOver *crossover, int childRate, bool logspace,
             bool verbose, int numLHSInitSamples, int numGenerationsForLHSInitSamples)
             : Optimizer(cost, startingValues, lb, ub, logspace, verbose),
               populationSize_(populationSize),
@@ -26,7 +26,10 @@ namespace opt {
               crossover_(crossover),
               childRate_(childRate),
               numLHSInitSamples_(numLHSInitSamples),
-              numGenerationsForLHSInitSamples_(numGenerationsForLHSInitSamples) {}
+              numGenerationsForLHSInitSamples_(numGenerationsForLHSInitSamples){}
+//              population_(Population::fromLHS(
+//                      populationSize, numberOfParameters_, lb, ub, logspace)
+//              )
 
 
     int PopulationOptimizer::getPopulationSize() const {
@@ -53,7 +56,7 @@ namespace opt {
         PopulationOptimizer::numGenerations_ = numGenerations;
     }
 
-    double PopulationOptimizer::evaluate(Individual& individual) {
+    double PopulationOptimizer::evaluate(Individual &individual) {
         double *pd = individual.data();
         return (*cost_)(pd);
     }

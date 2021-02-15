@@ -7,4 +7,14 @@
 
 namespace opt {
 
+    Selection::Selection(int howMany)
+        : howMany_(howMany){}
+
+    int Selection::getHowMany() const {
+        return howMany_;
+    }
+
+    void Selection::setHowMany(int howMany) {
+        howMany_ = howMany;
+    }
 }

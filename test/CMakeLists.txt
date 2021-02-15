@@ -30,6 +30,7 @@ add_test_executable(ContainerTests TESTS ContainerTests.cpp )
 add_test_executable(CxOnePointTests TESTS CxOnePointTests.cpp MockPopulationOptimizer.h)
 add_test_executable(SimpleRNG TESTS SimpleRNG.cpp)
 add_test_executable(EvaluationThreading TESTS EvaluationThreading.cpp)
+add_test_executable(PointMutationTests TESTS PointMutationTests.cpp)
 
 
 

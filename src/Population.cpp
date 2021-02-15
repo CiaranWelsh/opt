@@ -38,7 +38,6 @@ namespace opt {
         }
     }
 
-
     Population Population::fromLHS(
             int npop, int nparams,
             std::vector<double> lb, std::vector<double> ub, bool logspace) {

@@ -16,9 +16,22 @@ namespace opt {
 
         using Operator::Operator;
 
+        /**
+         * @brief construct a selection operator
+         * @param howMany how many individuals to propagate to next generation
+         */
+        explicit Selection(int howMany);
+
+        int getHowMany() const;
+
+        void setHowMany(int howMany);
+
         virtual ~Selection() = default;
 
-        virtual std::vector<int> select() = 0;
+        virtual void select(SharedPopulation &nextGen) = 0;
+
+    private:
+        int howMany_;
 
     };
 

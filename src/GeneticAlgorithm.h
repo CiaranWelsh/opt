@@ -36,13 +36,15 @@ namespace opt {
         GeneticAlgorithm(
                 CostFunction cost, int popSize, int numGenerations, const DoubleVector& lowerBounds,
                 const DoubleVector& upperBounds, const DoubleVector& startingVals,
-                Selection *select, Mutation *mutate, CrossOver *replicate, int childrate,
-                bool logspace, bool verbose,
-                int numLHSInitSamples, int numGenForLHSInitSamples);
+                Selection *select, Mutation *mutate, CrossOver *replicate,
+                bool logspace = false, bool verbose=true,
+                int numLHSInitSamples=1, int numGenForLHSInitSamples=0);
 
         void fit() override;
 
     };
+
+
 
 
 }

@@ -17,6 +17,7 @@ add_library(${target} STATIC
             IntermediateRecombination
         Mutation
             BasicMutation
+            PointMutation
         Selection
             TourneySelection
         )

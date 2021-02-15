@@ -10,12 +10,13 @@
 #include "CrossOver.h"
 #include "GeneticAlgorithm.h"
 #include "TourneySelection.h"
-#include "BasicMutation.h"
-#include "IntermediateRecombination.h"
+#include "PointMutation.h"
+#include "CxOnePoint.h"
+#include "CostFunctions.h"
 
 using namespace opt;
 
-class GeneticAlgorithmIntegrationTests {
+class GeneticAlgorithmIntegrationTests : public ::testing::Test {
 public:
 
     GeneticAlgorithmIntegrationTests() = default;
@@ -25,7 +26,7 @@ public:
 /**
  * This is how I want to use the algorthm
  */
-TEST_F(GeneticAlgorithmIntegrationTests, test) {
+TEST_F(GeneticAlgorithmIntegrationTests, iun) {
     std::vector<double> lowerBounds;
     std::vector<double> upperBounds;
     std::vector<double> startingVals;
@@ -34,13 +35,13 @@ TEST_F(GeneticAlgorithmIntegrationTests, test) {
     // population needs to create individuals
 
     // ElitistSelection
-    TourneySelection tourneySelection;
-    BasicMutation mutation;  // use this: http://liacs.leidenuniv.nl/~nijssensgr/CI/2012/9%20genetic%20algorithm.pdf
-    IntermediateRecombination intermediateRecombination; // discrete and global recombination also exist
+    TourneySelection tourneySelection(5, 25);
+    CxOnePoint cxOnePoint;
+    PointMutation pointMutation(0.3);
 
     GeneticAlgorithm geneticAlgorithm(
-            15, 25, lowerBounds, upperBounds, startingVals,
-            &tourneySelection, &mutation, &intermediateRecombination
+            BealeFunction, 100, 25, lowerBounds, upperBounds, startingVals,
+            &tourneySelection, &pointMutation, &cxOnePoint
     );
 
     geneticAlgorithm.fit();

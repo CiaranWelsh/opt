@@ -36,6 +36,11 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+#set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fsanitize=address")
+
+
 #set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
 #
 #find_package(Sanitizers)
