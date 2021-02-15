@@ -46,7 +46,7 @@ namespace opt {
          * by the lb and ub vector arguments are used. Sampling can be done in logspace.
          */
         std::vector<std::vector<double>> lhs(
-                int npopulation, int nparams, std::vector<double> lb, std::vector<double> ub, bool sampleInLogspace = true);
+                int npopulation, int nparams, const std::vector<double>& lb,const  std::vector<double>& ub, bool sampleInLogspace = true);
 
         std::vector<int> uniformIntWithoutReplacement(int lb, int ub, int size);
 

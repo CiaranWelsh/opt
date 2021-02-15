@@ -40,10 +40,10 @@ namespace opt {
 
     Population Population::fromLHS(
             int npop, int nparams,
-            std::vector<double> lb, std::vector<double> ub, bool logspace) {
+            const std::vector<double>& lb, const std::vector<double>& ub, bool logspace) {
         RandomNumberGenerator rng = RandomNumberGenerator::getInstance();
 
-        auto vectorPopulation = rng.lhs(npop, nparams, std::move(lb), std::move(ub), logspace);
+        auto vectorPopulation = rng.lhs(npop, nparams, lb, ub, logspace);
         Population population(npop, nparams); // preallocate empty
 
         // use a queue. ncores - 1 to account for main thread.
@@ -131,7 +131,7 @@ namespace opt {
 
     double Population::evaluate(CostFunction cost) {
         double total = 0;
-        std::for_each(std::execution::par, contents_.begin(), contents_.end(), [&](Individual& ind){
+        std::for_each(std::execution::par, contents_.begin(), contents_.end(), [&](Individual &ind) {
             total += ind.evaluate(cost);
         });
         return total;

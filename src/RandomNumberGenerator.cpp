@@ -126,7 +126,7 @@ namespace opt {
     }
 
     std::vector<std::vector<double>> RandomNumberGenerator::lhs(
-            int npopulation, int nparams, std::vector<double> lb, std::vector<double> ub, bool sampleInLogspace) {
+            int npopulation, int nparams, const std::vector<double>& lb, const std::vector<double>& ub, bool sampleInLogspace) {
         // todo this lhs sampler doesn't work for negative numbers
         int i, j;
 

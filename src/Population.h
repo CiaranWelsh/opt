@@ -33,7 +33,7 @@ namespace opt {
          * @param logspace Draw samples in log10 space
          */
         static Population fromLHS(
-                int npop, int nparam, std::vector<double> lb, std::vector<double> ub, bool logspace);
+                int npop, int nparam, const std::vector<double>& lb, const std::vector<double>& ub, bool logspace);
 
         /**
          * @brief create a random population using latin hypercube sampling
@@ -72,7 +72,6 @@ namespace opt {
          */
         std::vector<double> individualFitnesses_;
     };
-
 
     using SharedPopulation = std::shared_ptr<Population>;
 }
