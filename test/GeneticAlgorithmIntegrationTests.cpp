@@ -35,12 +35,12 @@ TEST_F(GeneticAlgorithmIntegrationTests, iun) {
     // population needs to create individuals
 
     // ElitistSelection
-    TourneySelection tourneySelection(5, 25);
+    TourneySelection tourneySelection(5, 25, 2);
     CxOnePoint cxOnePoint;
     PointMutation pointMutation(0.3);
 
     GeneticAlgorithm geneticAlgorithm(
-            BealeFunction, 100, 25, startingVals, lowerBounds, upperBounds,
+            BealeFunction, 100, 15, startingVals, lowerBounds, upperBounds,
             &tourneySelection, &pointMutation, &cxOnePoint
     );
 

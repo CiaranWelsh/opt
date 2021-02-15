@@ -18,16 +18,20 @@ namespace opt {
 
         using Selection::Selection;
 
-        TourneySelection(SharedPopulation population, int tournsize, int k);
+        TourneySelection(SharedPopulation population, int tournsize, int howMany);
 
-        TourneySelection(int tournsize, int k);
+        /**
+         * @brief constructor that bypasses initialising the
+         * population. We need to do this for dependency injection
+         * of operators into algorithms.
+         */
+        TourneySelection(int tournsize, int howMany, int numEstimatedParams);
 
         ~TourneySelection() override = default;
 
-        void select(SharedPopulation &nextGen) override;
+        void select() override;
 
     private:
-        int k_;
         int tournsize_;
     };
 

@@ -7,12 +7,14 @@
 
 
 namespace opt{
-    TourneySelection::TourneySelection(SharedPopulation population, int tournsize, int k)
-        : Selection(std::move(population)), tournsize_(tournsize), k_(k){}
+    TourneySelection::TourneySelection(SharedPopulation population, int tournsize, int howMany)
+        : Selection(std::move(population), howMany), tournsize_(tournsize){}
 
-    void TourneySelection::select(SharedPopulation &nextGen) {
+    void TourneySelection::select() {
         RandomNumberGenerator rng = RandomNumberGenerator::getInstance();
-        for (int i=0; i<k_; i++){
+
+        std::vector<int> selection(howMany_);
+        for (int i=0; i<howMany_; i++){
             auto contestants = rng.uniformIntWithoutReplacement(0, population_->size(), tournsize_);
             // now we figure out which is best
             int bestIndex = std::numeric_limits<int>::max();
@@ -22,12 +24,21 @@ namespace opt{
                     bestIndex = contestant;
                 }
             }
-            (*nextGen)[i] = (*population_)[bestIndex];
+            selection[i] = bestIndex;
         }
+
+        // sort the first k items based on fitness, then don't bother with extra complexity.
+        std::partial_sort(population_->begin(), population_->begin() + howMany_, population_->end(),
+                          [&](Individual& ind1, Individual& ind2){
+            return ind1.getFitness()< ind2.getFitness();
+        });
+
+        // resize to howMany_ individuals, which contains the top `howMany_`
+        population_->resize(howMany_);
+
     }
 
-    TourneySelection::TourneySelection(int tournsize, int k)
-        : tournsize_(tournsize), k_(k){}
-
+    TourneySelection::TourneySelection(int tournsize, int howMany, int numEstimatedParams)
+        : Selection(howMany, numEstimatedParams), tournsize_(tournsize){}
 
 }

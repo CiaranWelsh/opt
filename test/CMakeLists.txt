@@ -7,6 +7,15 @@ function(add_test_executable BINARY OUT_VARIABLE)
     target_include_directories(${BINARY} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
     target_link_libraries(${BINARY} PUBLIC opt gtest gtest_main gmock gmock_main)
 
+#    set(x "D:/LLVM-11.01/lib/clang/11.0.1/lib/windows")
+#    target_compile_options(${BINARY} PRIVATE -fsanitize=address)
+#    target_link_directories(${BINARY} PRIVATE "${x}")
+#    file(GLOB l "*.lib")
+#
+#    target_link_libraries(${BINARY} PRIVATE clang_rt.asan_dynamic-x86_64 clang_rt.asan_dynamic_runtime_thunk-x86_64)
+#    target_link_options(${BINARY} PRIVATE /wholearchive:clang_rt.asan_dynamic_runtime_thunk-x86_64.lib)
+
+    add_dependencies(${BINARY} opt gtest gtest_main gmock gmock_main)
     set_target_properties(${BINARY} PROPERTIES LINKER_LANGUAGE CXX)
 
     if ("${${OUT_VARIABLE}}" STREQUAL "")

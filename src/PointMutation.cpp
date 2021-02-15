@@ -9,20 +9,30 @@
 
 namespace opt {
 
+    PointMutation::PointMutation(double pb)
+            : pb_(pb) {}
 
     void PointMutation::mutate() {
-        std::for_each(std::execution::par, population_->begin(), population_->end(), [&](Individual &ind) {
+        for (auto &ind : (*population_)){
             double r = RandomNumberGenerator::getInstance().uniformReal(0, 1);
             if (r < pb_) {
                 // pick an j index
-                int idx = RandomNumberGenerator::getInstance().uniformInt(0, ind.size());
+                int idx = RandomNumberGenerator::getInstance().uniformInt(0, ind.size()-1);
                 ind[idx] += RandomNumberGenerator::getInstance().normal(ind[idx], 1);
             }
-        });
+        }
+
+//        std::for_each(std::execution::par, population_->begin(), population_->end(), [&](Individual &ind) {
+//            double r = RandomNumberGenerator::getInstance().uniformReal(0, 1);
+//            if (r < pb_) {
+//                // pick an j index
+//
+//                int idx = RandomNumberGenerator::getInstance().uniformInt(0, ind.size()-1);
+//                ind[idx] += RandomNumberGenerator::getInstance().normal(ind[idx], 1);
+//            }
+//        });
     }
 
-    PointMutation::PointMutation(double pb)
-            : pb_(pb) {}
 
 
 }

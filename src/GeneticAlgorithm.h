@@ -34,8 +34,10 @@ namespace opt {
          * operators.
          */
         GeneticAlgorithm(
-                CostFunction cost, int popSize, int numGenerations, const DoubleVector& lowerBounds,
-                const DoubleVector& upperBounds, const DoubleVector& startingVals,
+                CostFunction cost, int popSize, int numGenerations,
+                const DoubleVector& startingVals,
+                const DoubleVector& lowerBounds,
+                const DoubleVector& upperBounds,
                 Selection *select, Mutation *mutate, CrossOver *replicate,
                 bool logspace = false, bool verbose=true,
                 int numLHSInitSamples=1, int numGenForLHSInitSamples=0);

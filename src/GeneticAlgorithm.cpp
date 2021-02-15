@@ -17,38 +17,45 @@ namespace opt {
             : PopulationOptimizer(cost, populationSize, numGenerations, startingVals,
                                   lowerBounds, upperBounds, select,
                                   mutate, crossOver) {
-        Population pop = Population::fromLHS(populationSize_, optItems_.size(),
-                                             lowerBounds, upperBounds, logspace_);
-        population_ = std::make_shared<Population>(pop);
+        population_ = std::make_shared<Population>(
+                Population::fromLHS(populationSize_, optItems_.size(),
+                                    startingVals, lowerBounds, upperBounds, logspace_));
+        nextGen_ = std::make_shared<Population>(Population(populationSize, optItems_.size()));
+
     }
 
     void GeneticAlgorithm::fit() {
-
-        std::cout << (*population_)[0][0] << std::endl;
-
         selection_->setPopulation(population_);
-
+        mutation_->setPopulation(population_);
+        crossover_->setPopulation(population_);
         for (int i = 0; i < numGenerations_; i++) {
+            std::cout << "Current gen: " << i << std::endl;
             population_->evaluate(cost_);
-            selection_->select(nextGen_);
 
-            crossover_->setPopulation(nextGen_);
-            for (auto[i, j] = std::tuple(0, 1); j < nextGen_->size(); i++, j++) {
-                crossover_->crossover((*nextGen_)[i], (*nextGen_)[j]);
-            }
+            // select from the population. How many is determined by the
+            // howMany variable in the selection operator.
+            // select should resize the population to selected individuals only
+            selection_->select();
 
-            mutation_->setPopulation(nextGen_);
+            // mate the selected population
+            crossover_->crossover();
+
+            // mutate the selected population
             mutation_->mutate();
 
-            // fill remaining individuals with random
-            int numNeeded = populationSize_ - selection_->getHowMany();
+            // resize back to original size.
+            population_->resize(populationSize_);
+
+            // fill remaining individuals with random individuals
+            int numNeeded = populationSize_ - selection_->howMany();
             auto newIndividuals = RandomNumberGenerator::getInstance().lhs(numNeeded, optItems_.size(),
                                                                            optItems_.getLb(), optItems_.getUb(),
                                                                            logspace_);
-            for (int j = 0; j < newIndividuals.size(); j++) {
-                (*nextGen_)[selection_->getHowMany() + j] = Individual(j);
+            for (int j = 0; j < newIndividuals.size() - 1; j++) {
+                (*population_)[selection_->howMany() + j] = Individual(newIndividuals[j]);
             }
-            population_ = nextGen_;
+
+            // individuals are destroyed at end of scope.
         }
 
         for (auto i: *population_) {

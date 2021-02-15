@@ -5,7 +5,8 @@
 #ifndef SRES_BLOCKINGQUEUE_H
 #define SRES_BLOCKINGQUEUE_H
 
-
+#include <queue>
+#include <future>
 #include <mutex>
 
 template<class E>

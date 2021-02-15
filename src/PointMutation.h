@@ -15,7 +15,7 @@ namespace opt {
     public:
         using Mutation::Mutation;
 
-        PointMutation(double pb);
+        explicit PointMutation(double pb);
 
         void mutate() override;
 

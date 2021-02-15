@@ -181,9 +181,13 @@ namespace opt {
             v[i] = i; // fill those 5 spaces with 5, 6, 7, 8, 9
         }
         // shuffle them
-        std::ranges::shuffle(v, generator_);  // only if you want the samples in random order
+        std::shuffle(v.begin(), v.end(), generator_);  // only if you want the samples in random order
 
         // and select size of them
         return std::vector<int>(v.begin(), v.begin() + size);
+    }
+
+    std::default_random_engine &RandomNumberGenerator::getGenerator() {
+        return generator_;
     }
 }

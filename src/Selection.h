@@ -20,18 +20,32 @@ namespace opt {
          * @brief construct a selection operator
          * @param howMany how many individuals to propagate to next generation
          */
-        explicit Selection(int howMany);
+        Selection(SharedPopulation population, int howMany);
 
-        int getHowMany() const;
+        /**
+         * @brief constructor for initializing
+         * Selection operator without a population. This is
+         * a requirement of dependency injection for operators
+         * into algorithms.
+         */
+        explicit Selection(int howMany, int numEstimatedParameters);
+
+        [[nodiscard]] int howMany() const;
 
         void setHowMany(int howMany);
 
         virtual ~Selection() = default;
 
-        virtual void select(SharedPopulation &nextGen) = 0;
+        virtual void select() = 0;
 
-    private:
+        [[nodiscard]] const SharedPopulation &getNextGen() const;
+
+        void setNextGen(const SharedPopulation &nextGen);
+
+    protected:
         int howMany_;
+
+        SharedPopulation nextGen_;
 
     };
 

@@ -3,7 +3,7 @@
 //
 
 #include "OptItem.h"
-
+#include <cmath>
 
 namespace opt {
 

@@ -15,7 +15,8 @@
 
 namespace opt {
 
-    Population::Population(int npop, int nparam) {
+    Population::Population(int npop, int nparam)
+            : individualFitnesses_(std::vector<double>(npop, std::numeric_limits<double>::max())) {
         std::vector<Individual> ind(npop);
         for (int i = 0; i < npop; i++) {
             ind[i] = Individual(nparam);
@@ -23,7 +24,8 @@ namespace opt {
         contents_ = ind;
     };
 
-    Population::Population(const std::vector<std::vector<double>> &input) {
+    Population::Population(const std::vector<std::vector<double>> &input)
+            : individualFitnesses_(std::vector<double>(input.size(), std::numeric_limits<double>::max())) {
         std::vector<Individual> ind;
         for (auto &it: input) {
             contents_.emplace_back(it);
@@ -31,7 +33,8 @@ namespace opt {
 
     }
 
-    Population::Population(std::initializer_list<std::initializer_list<double>> input) {
+    Population::Population(std::initializer_list<std::initializer_list<double>> input)
+            : individualFitnesses_(std::vector<double>(input.size(), std::numeric_limits<double>::max())) {
         std::vector<Individual> ind;
         for (auto &it: input) {
             contents_.emplace_back(it);
@@ -40,7 +43,7 @@ namespace opt {
 
     Population Population::fromLHS(
             int npop, int nparams,
-            const std::vector<double>& lb, const std::vector<double>& ub, bool logspace) {
+            const std::vector<double> &lb, const std::vector<double> &ub, bool logspace) {
         RandomNumberGenerator rng = RandomNumberGenerator::getInstance();
 
         auto vectorPopulation = rng.lhs(npop, nparams, lb, ub, logspace);
@@ -131,10 +134,35 @@ namespace opt {
 
     double Population::evaluate(CostFunction cost) {
         double total = 0;
-        std::for_each(std::execution::par, contents_.begin(), contents_.end(), [&](Individual &ind) {
-            total += ind.evaluate(cost);
-        });
+
+        for (int i = 0; i < size() - 1; i++) {
+            double d = contents_[i].evaluate(cost);
+            individualFitnesses_[i] = d;
+            total += d;
+        }
+        // premature optimization is the root of all evil
+//        std::for_each(std::execution::par, contents_.begin(), contents_.end(), [&](Individual &ind) {
+//            total += ind.evaluate(cost);
+//        });
+        populationFitness_ = total;
+
         return total;
+    }
+
+    double Population::getPopulationFitness() const {
+        return populationFitness_;
+    }
+
+    const std::vector<double> &Population::getIndividualFitnesses() const {
+        return individualFitnesses_;
+    }
+
+    void Population::erase(int index) {
+        contents_.erase(contents_.begin() + index);
+    }
+
+    void Population::resize(int to) {
+        contents_.resize(to);
     }
 
 

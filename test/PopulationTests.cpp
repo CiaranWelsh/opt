@@ -29,16 +29,22 @@ public:
 };
 
 
-TEST_F(PopulationTests, test) {
-    Population population({
-                                  {1, 2, 3},
-                                  {4, 5, 6},
-                                  {7, 8, 9},
-                          });
+TEST_F(PopulationTests, TestInstantiateFromInitLists) {
+    ASSERT_NO_THROW(
+            Population population({
+                                          {1, 2, 3},
+                                          {4, 5, 6},
+                                          {7, 8, 9},
+                                  });
+    );
+}
 
-//    ASSERT_EQ(std::vector<double>({1, 2, 3}), population[0]);
-
-
+TEST_F(PopulationTests, TestInstantiateFromInts) {
+    Population population(10, 3);
+    population[0] = Individual({1, 2, 3});
+    ASSERT_EQ(population[0][2], 3);
+    ASSERT_EQ(population.size(), 10);
+    ASSERT_EQ(population[0].size(), 3);
 }
 
 
@@ -93,7 +99,7 @@ TEST_F(PopulationTests, TestCostFunctionEvaluationWhenPopsizeLTNumThreads) {
 
     Population population({
                                   {3.5,  1.0},
-                                  {2.5, 0.1},
+                                  {2.5,  0.1},
                                   {3.25, 0.25},
                           });
 
@@ -150,16 +156,16 @@ TEST_F(PopulationTests, TestCostFunctionEvaluationWhenPopsizeGTNumThreadsWithRem
 }
 
 
-TEST_F(PopulationTests, TestSharedPopulationPtr) {
+TEST_F(PopulationTests, TestIndividualFitnessesUpdatedAfterEvaluation) {
     RandomNumberGenerator rng = RandomNumberGenerator::getInstance(10);
 
-    SharedPopulation population = std::make_shared<Population>(
-            Population::fromLHS(50000, 2, {2.9, 0.4}, {3.1, 0.6}, false)
-    );
+    Population population = Population::fromLHS(50000, 2, {2.9, 0.4}, {3.1, 0.6}, false);
+    ASSERT_NEAR(population[0][0], 3.00675, 0.1); // makes sure our seed words
 
-    std::cout << (*population)[0][0] << std::endl;
+    population.evaluate(BealeFunction);
+
+    ASSERT_NEAR(population.getIndividualFitnesses()[0], 0.0494881, 0.1);
 }
-
 
 
 

@@ -18,6 +18,7 @@ namespace opt {
 
         virtual void crossover(Individual &parent1, Individual &parent2) = 0;
 
+        void crossover();
     };
 }
 

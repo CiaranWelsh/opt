@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "OptItems.h"
 #include "Error.h"
+#include <cmath>
 
 namespace opt {
 

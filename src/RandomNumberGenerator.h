@@ -50,6 +50,8 @@ namespace opt {
 
         std::vector<int> uniformIntWithoutReplacement(int lb, int ub, int size);
 
+        [[nodiscard]] std::default_random_engine &getGenerator();
+
     private:
 
         explicit RandomNumberGenerator(

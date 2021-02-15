@@ -58,6 +58,13 @@ namespace opt {
 
         double evaluate(CostFunction cost);
 
+        [[nodiscard]] double getPopulationFitness() const;
+
+        [[nodiscard]] const std::vector<double> &getIndividualFitnesses() const;
+
+        void erase(int index);
+
+        void resize(int to);
 
     private:
         /**

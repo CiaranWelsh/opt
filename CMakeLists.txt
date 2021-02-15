@@ -36,9 +36,25 @@ set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
+#set(x "D:/LLVM-11.01/lib/clang/11.0.1/lib/windows")
+#add_compile_options(-fsanitize=address)
+#link_directories("${x}")
+#link_libraries(clang_rt.asan_dynamic-x86_64 clang_rt.asan_dynamic_runtime_thunk-x86_64)
+#add_link_options(/wholearchive:clang_rt.asan_dynamic_runtime_thunk-x86_64.lib)
+
+
+#set(CMAKE_EXE_LINKER_FLAGS_INIT "-fsanitize=address -fno-omit-frame-pointer")
+
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
-#set (CMAKE_LINKER_FLAGS "${CMAKE_LINKER_FLAGS} -fsanitize=address")
+#set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address")
+
+#add_compile_options(-fsanitize=address)
+
+#target_compile_options(exec PRIVATE -fsanitize=address)
+#target_link_directories(exec PRIVATE "$ENV{ProgramFiles\(x86\)}/Microsoft Visual Studio/2019/Professional/VC/Tools/Llvm/x64/lib/clang/10.0.0/lib/windows")
+#target_link_libraries(exec PRIVATE clang_rt.asan_dynamic-x86_64 clang_rt.asan_dynamic_runtime_thunk-x86_64)
+#target_link_options(exec PRIVATE /wholearchive:clang_rt.asan_dynamic_runtime_thunk-x86_64.lib)
 
 
 #set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/sanitizers-cmake/cmake" ${CMAKE_MODULE_PATH})
@@ -89,8 +105,9 @@ endif ()
 # for clang-cl on windows, try, catch blocks are not allowed
 # unless you use one of the EH flags. Not sure which to use, but
 #
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -EHsc")
-
+if (WIN32)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -EHsc")
+endif ()
 option(BUILD_PYTHON "build the python API (for SRES only)" ON)
 
 set(README_FILE "${CMAKE_CURRENT_SOURCE_DIR}/Readme.md")
@@ -121,8 +138,6 @@ option(COPY_BINARY_TO_PYTHON_DIR " when true, find the SRES binary and copy to s
 #if (COPY_BINARY_TO_PYTHON_DIR)
 #    install(TARGETS SRESC DESTINATION "${CMAKE_CURRENT_SOURCE_DIR}/sres")
 #endif ()
-
-
 
 
 #find_package(Python)
