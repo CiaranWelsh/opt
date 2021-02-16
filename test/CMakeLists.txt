@@ -40,6 +40,10 @@ add_test_executable(CxOnePointTests TESTS CxOnePointTests.cpp MockPopulationOpti
 add_test_executable(SimpleRNG TESTS SimpleRNG.cpp)
 add_test_executable(EvaluationThreading TESTS EvaluationThreading.cpp)
 add_test_executable(PointMutationTests TESTS PointMutationTests.cpp)
+add_test_executable(DiffEvolutionTests TESTS DiffEvolutionTests.cpp)
+add_test_executable(DiffEvolutionMutation1Tests TESTS DiffEvolutionMutation1Tests.cpp)
+add_test_executable(DiffEvolutionCxBinomialTests TESTS DiffEvolutionCxBinomialTests.cpp)
+add_test_executable(DiffEvolutionSelectionTests TESTS DiffEvolutionSelectionTests.cpp)
 
 
 

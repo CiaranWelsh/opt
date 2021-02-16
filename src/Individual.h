@@ -31,8 +31,6 @@ namespace opt {
 
         Individual operator()(int start, int stop);
 
-        Individual& operator+(Individual& other);
-
         bool operator==(const Individual &rhs) const;
 
         bool operator!=(const Individual &rhs) const;
@@ -44,6 +42,54 @@ namespace opt {
         bool operator<=(const Individual &rhs) const;
 
         bool operator>=(const Individual &rhs) const;
+
+        /**
+         * @brief performs vector addition on this
+         * Individual and @param other
+         */
+        Individual operator+(const Individual &other);
+
+        /**
+         * @brief performs vector subtraction on this
+         * Individual and @param other
+         */
+        Individual operator-(const Individual &other);
+
+        /**
+         * @brief performs vector multiplication on this
+         * Individual and @param other
+         */
+        Individual operator*(const Individual &other);
+
+        /**
+         * @brief performs vector dividion on this
+         * Individual and @param other
+         */
+        Individual operator/(const Individual &other);
+
+        /**
+         * @brief performs vector addition with scalar on this
+         * Individual and @param scalar
+         */
+        Individual operator+(double scalar);
+
+        /**
+         * @brief performs vector addition with scalar on this
+         * Individual and @param scalar
+         */
+        Individual operator-(double scalar);
+
+        /**
+         * @brief performs vector addition with scalar on this
+         * Individual and @param scalar
+         */
+        Individual operator*(double scalar);
+
+        /**
+         * @brief performs vector addition with scalar on this
+         * Individual and @param scalar
+         */
+        Individual operator/(double scalar);
 
     private:
 

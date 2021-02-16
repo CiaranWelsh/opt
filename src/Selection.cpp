@@ -7,12 +7,10 @@
 namespace opt {
 
     Selection::Selection(SharedPopulation population, int howMany)
-            : Operator(std::move(population)), howMany_(howMany),
-              nextGen_(std::make_shared<Population>(howMany_, (*population_)[0].size())) {}
+            : Operator(std::move(population)), howMany_(howMany) {}
 
     Selection::Selection(int howMany, int numEstimatedParameters)
-            : howMany_(howMany),
-              nextGen_(std::make_shared<Population>(howMany_, numEstimatedParameters)) {}
+            : howMany_(howMany){}
 
     int Selection::howMany() const {
         return howMany_;
@@ -22,12 +20,4 @@ namespace opt {
         howMany_ = howMany;
     }
 
-
-    const SharedPopulation &Selection::getNextGen() const {
-        return nextGen_;
-    }
-
-    void Selection::setNextGen(const SharedPopulation &nextGen) {
-        nextGen_ = nextGen;
-    }
 }

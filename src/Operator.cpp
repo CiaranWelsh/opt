@@ -18,6 +18,17 @@ namespace opt {
     void Operator::setPopulation(const SharedPopulation &population) {
         population_ = population;
     }
+
+    const SharedPopulation &Operator::getNextGen() const {
+        return nextGen_;
+    }
+
+    void Operator::setNextGen(const SharedPopulation &nextGen) {
+        nextGen_ = nextGen;
+    }
+
+    Operator::Operator(SharedPopulation population, SharedPopulation nextGen)
+        : population_(std::move(population)), nextGen_(std::move(nextGen)){}
 }
 
 

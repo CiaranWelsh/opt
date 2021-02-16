@@ -135,15 +135,15 @@ namespace opt {
     double Population::evaluate(CostFunction cost) {
         double total = 0;
 
-        for (int i = 0; i < size() - 1; i++) {
+        for (int i = 0; i < size() ; i++) {
             double d = contents_[i].evaluate(cost);
             individualFitnesses_[i] = d;
             total += d;
         }
         // premature optimization is the root of all evil
-//        std::for_each(std::execution::par, contents_.begin(), contents_.end(), [&](Individual &ind) {
-//            total += ind.evaluate(cost);
-//        });
+        //        std::for_each(std::execution::par, contents_.begin(), contents_.end(), [&](Individual &ind) {
+        //            total += ind.evaluate(cost);
+        //        });
         populationFitness_ = total;
 
         return total;

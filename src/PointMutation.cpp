@@ -13,12 +13,14 @@ namespace opt {
             : pb_(pb) {}
 
     void PointMutation::mutate() {
-        for (auto &ind : (*population_)){
-            double r = RandomNumberGenerator::getInstance().uniformReal(0, 1);
-            if (r < pb_) {
-                // pick an j index
-                int idx = RandomNumberGenerator::getInstance().uniformInt(0, ind.size()-1);
-                ind[idx] += RandomNumberGenerator::getInstance().normal(ind[idx], 1);
+        for (auto &ind : (*population_)) {
+            for (int gene = 0; gene < ind.size(); gene++) {
+                double r = RandomNumberGenerator::getInstance().uniformReal(0, 1);
+                if (r < pb_) {
+                    // pick an j index
+                    // int idx = RandomNumberGenerator::getInstance().uniformInt(0, ind.size() - 1);
+                    ind[gene] += RandomNumberGenerator::getInstance().normal(ind[gene], 1);
+                }
             }
         }
 
@@ -32,7 +34,6 @@ namespace opt {
 //            }
 //        });
     }
-
 
 
 }

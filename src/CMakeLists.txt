@@ -4,6 +4,7 @@ add_library(${target} STATIC
         Optimizer
             PopulationOptimizer
             GeneticAlgorithm
+            DiffEvolution
         Container.h
             Population
             Individual
@@ -15,11 +16,14 @@ add_library(${target} STATIC
         CrossOver
             CxOnePoint
             IntermediateRecombination
+            DiffEvolutionCxBinomial
         Mutation
             BasicMutation
             PointMutation
+            DiffEvolutionMutation1
         Selection
             TourneySelection
+            DiffEvolutionSelection
         )
 target_include_directories(${target} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

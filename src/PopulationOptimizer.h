@@ -187,6 +187,12 @@ namespace opt {
         SharedPopulation population_;
 
         /**
+         * @brief best individual seen during evolution so far
+         */
+        Individual bestIndividual;
+
+
+        /**
          * @brief matrix on individuals where rows are parameter
          * sets while columns are parameter candidates. This is
          * the matrix for the next generation
@@ -227,7 +233,7 @@ namespace opt {
          * Collect the best values over generations. This is a map
          * with generation as key and fitness as value
          */
-        std::unordered_map<int, double> hallOfFame_;
+        std::unordered_map<int, Individual> hallOfFame_;
 
     };
 

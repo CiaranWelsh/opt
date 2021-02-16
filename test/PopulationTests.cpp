@@ -168,6 +168,21 @@ TEST_F(PopulationTests, TestIndividualFitnessesUpdatedAfterEvaluation) {
 }
 
 
+TEST_F(PopulationTests, CheckThatPopulationWorksWithStdMinElement) {
+    RandomNumberGenerator rng = RandomNumberGenerator::getInstance(10);
+
+    Population population = Population::fromLHS(10, 2, {2.9, 0.4}, {3.1, 0.6}, false);
+    population.evaluate(BealeFunction);
+
+    Individual m = *std::min_element(population.begin(), population.end());
+
+    for (int i=0; i< population.size(); i++){
+        ASSERT_TRUE(m.getFitness() <= population[i].getFitness());
+    }
+
+}
+
+
 
 
 

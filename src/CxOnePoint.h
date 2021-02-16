@@ -21,12 +21,13 @@ namespace opt {
      *  v1 = {0, 1, 7, 8, 9}
      *  v2 = {5, 6, 2, 3, 4}
      */
-    class CxOnePoint : public CrossOver{
+    class CxOnePoint : public CrossOver {
     public:
         using CrossOver::CrossOver;
 
         void crossover(Individual &parent1, Individual &parent2) override;
 
+        void crossover() override;
     };
 }
 

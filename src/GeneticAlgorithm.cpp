@@ -29,8 +29,10 @@ namespace opt {
         mutation_->setPopulation(population_);
         crossover_->setPopulation(population_);
         for (int i = 0; i < numGenerations_; i++) {
-            std::cout << "Current gen: " << i << std::endl;
             population_->evaluate(cost_);
+            bestFitnessValue_ = (*population_)[0].getFitness();
+            std::cout << "Current gen: " << i << "; best fitness: " << bestFitnessValue_
+                << "\t\t; x: " << (*population_)[0][0] << "\t\t; y: " <<(*population_)[0][1] << std::endl;
 
             // select from the population. How many is determined by the
             // howMany variable in the selection operator.
@@ -58,12 +60,13 @@ namespace opt {
             // individuals are destroyed at end of scope.
         }
 
-        for (auto i: *population_) {
-            for (auto j : i) {
-                std::cout << j << "," << std::endl;
-            }
-            std::cout << std::endl;
-        }
+        std::cout << "best individual: " << (*population_)[0][0] << ", " << (*population_)[0][1] << std::endl;
+//        for (auto i: *population_) {
+//            for (auto j : i) {
+//                std::cout << j << "," << std::endl;
+//            }
+//            std::cout << std::endl;
+//        }
 
 
     }

@@ -38,14 +38,9 @@ namespace opt {
 
         virtual void select() = 0;
 
-        [[nodiscard]] const SharedPopulation &getNextGen() const;
-
-        void setNextGen(const SharedPopulation &nextGen);
 
     protected:
         int howMany_;
-
-        SharedPopulation nextGen_;
 
     };
 

@@ -27,9 +27,6 @@ namespace opt {
               childRate_(childRate),
               numLHSInitSamples_(numLHSInitSamples),
               numGenerationsForLHSInitSamples_(numGenerationsForLHSInitSamples){}
-//              population_(Population::fromLHS(
-//                      populationSize, numberOfParameters_, lb, ub, logspace)
-//              )
 
 
     int PopulationOptimizer::getPopulationSize() const {

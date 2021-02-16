@@ -30,8 +30,7 @@ namespace opt {
     }
 
     bool Individual::operator==(const Individual &rhs) const {
-        return static_cast<const opt::Container<double> &>(*this) == static_cast<const opt::Container<double> &>(rhs) &&
-               fitness_ == rhs.fitness_;
+        return contents_ == rhs.contents_;
     }
 
     bool Individual::operator!=(const Individual &rhs) const {
@@ -55,14 +54,71 @@ namespace opt {
     }
 
     Individual Individual::operator()(int start, int stop) {
-        return Individual(std::vector<double>(contents_.begin()+start, contents_.begin()+stop));
+        return Individual(std::vector<double>(contents_.begin() + start, contents_.begin() + stop));
     }
 
-    Individual& Individual::operator+(Individual& other) {
-        for (int i=0; i< other.size(); i++){
-            contents_.push_back(other[i]);
+    Individual Individual::operator+(const Individual &other) {
+        Individual out(size());
+        for (int i = 0; i < size(); i++) {
+            out[i] = contents_[i] + other.contents_[i];
         }
-        return *this;
+        return out;
+    }
+
+    Individual Individual::operator-(const Individual &other) {
+        Individual out(size());
+        for (int i = 0; i < size(); i++) {
+            out[i] = contents_[i] - other.contents_[i];
+        }
+        return out;
+    }
+
+    Individual Individual::operator*(const Individual &other) {
+        Individual out(size());
+        for (int i = 0; i < size(); i++) {
+            out[i] = contents_[i] * other.contents_[i];
+        }
+        return out;
+    }
+
+    Individual Individual::operator/(const Individual &other) {
+        Individual out(size());
+        for (int i = 0; i < size(); i++) {
+            out[i] = contents_[i] / other.contents_[i];
+        }
+        return out;
+    }
+
+    Individual Individual::operator+(double scalar) {
+        Individual out(size());
+        for (int i = 0; i < size(); i++) {
+            out[i] = contents_[i] + scalar;
+        }
+        return out;
+    }
+
+    Individual Individual::operator-(double scalar) {
+        Individual out(size());
+        for (int i = 0; i < size(); i++) {
+            out[i] = contents_[i] - scalar;
+        }
+        return out;
+    }
+
+    Individual Individual::operator*(double scalar) {
+        Individual out(size());
+        for (int i = 0; i < size(); i++) {
+            out[i] = contents_[i] * scalar;
+        }
+        return out;
+    }
+
+    Individual Individual::operator/(double scalar) {
+        Individual out(size());
+        for (int i = 0; i < size(); i++) {
+            out[i] = contents_[i] / scalar;
+        }
+        return out;
     }
 
 
