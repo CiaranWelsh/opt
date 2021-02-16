@@ -4,13 +4,13 @@
 
 #include "DiffEvolutionMutation1.h"
 
-#include <utility>
+#include "OptItems.h"
 #include "RandomNumberGenerator.h"
 
 namespace opt {
 
-    DiffEvolutionMutation1::DiffEvolutionMutation1(SharedPopulation population, SharedPopulation nextGen, double F)
-            : Mutation(std::move(population), std::move(nextGen)), F_(F) {}
+    DiffEvolutionMutation1::DiffEvolutionMutation1(SharedPopulation population, SharedPopulation nextGen, OptItems* optItems, double F)
+            : Mutation(std::move(population), std::move(nextGen), optItems), F_(F) {}
 
 
     void DiffEvolutionMutation1::mutate() {
@@ -22,7 +22,16 @@ namespace opt {
             Individual &xr1 = (*population_)[r[0]];
             Individual &xr2 = (*population_)[r[1]];
             Individual &xr3 = (*population_)[r[2]];
-            (*nextGen_)[i] = xr1 +  ((xr2-xr3) * F_);
+            Individual individual = xr1 +  ((xr2-xr3) * F_);
+
+            // deal with case where mutation takes us out of optimization boundaries
+            for (int j = 0; j< individual.size(); j++){
+                if (individual[j] < optItems_->getLb()[j] || individual[j] > optItems_->getUb()[j]){
+                    individual[j] = RandomNumberGenerator::getInstance().uniformReal(
+                            optItems_->getLb()[j], optItems_->getUb()[j]);
+                }
+            }
+            (*nextGen_)[i] = individual;
         }
 
     }

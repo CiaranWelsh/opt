@@ -20,16 +20,17 @@ TEST_F(DiffEvolutionTests, test1) {
     DiffEvolutionMutation1 mut;
     mut.setF(1);
     DiffEvolutionCxBinomial cx;
-    cx.setPb(0.15);
+    cx.setPb(0.75);
     DiffEvolutionSelection selection;
 
     DiffEvolution diffEvolution(
-            BealeFunction, 10, 20, startingVals, lowerBounds, upperBounds,
+            BealeFunction, 15, 100, startingVals, lowerBounds, upperBounds,
             &selection, &mut, &cx
     );
     diffEvolution.fit();
 }
 
+// todo need to deal with boundary conditions
 
 
 

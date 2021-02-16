@@ -42,6 +42,8 @@ namespace opt {
         crossover_->setPopulation(population_);
         crossover_->setNextGen(nextGen_);
 
+        mutation_->setOptItems(&optItems_);
+
         // set best individual to any old solution to begin with
         bestIndividual = (*population_)[0];
 

@@ -6,6 +6,7 @@
 #define SRES_MUTATION_H
 
 #include "Operator.h"
+#include "OptItems.h"
 
 namespace opt {
 
@@ -15,6 +16,12 @@ namespace opt {
 
         using Operator::Operator;
 
+        explicit Mutation(SharedPopulation population);
+
+        Mutation(SharedPopulation population, SharedPopulation nextGen);
+
+        Mutation(SharedPopulation population, SharedPopulation nextGen, OptItems* optItems);
+
         /**
          * @brief virtual default destructor
          */
@@ -22,6 +29,16 @@ namespace opt {
 
         virtual void mutate() = 0;
 
+        [[nodiscard]] OptItems *getOptItems() const;
+
+        void setOptItems(OptItems *optItems);
+
+    protected:
+        /**
+         * Non owning pointer to OptItems so we can check
+         * boundaries during mutations
+         */
+        OptItems *optItems_;
 
     };
 }
